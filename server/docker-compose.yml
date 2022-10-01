@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  server:
+    container_name: 'ddk-review-server'
+    build: .
+    ports:
+      - '5000:5000'
+  db:
+    container_name: 'ddk-review-db'
+    image: 'postgres'
+    ports:
+      - '4321:5432'
+    environment:
+      POSTGRES_PASSWORD: 'admin-user4@'
+      POSTGRES_USER: 'admin'
+    volumes:
+      - data:/var/lib/postgresql/data
+  pgAdmin:
+    image: 'dpage/pgadmin4'
+    ports:
+      - '5555:80'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'admin@admin.com'
+      PGADMIN_DEFAULT_PASSWORD: 'admin-pass4@'
+    restart: on-failure:10
+
+volumes:
+  data:
